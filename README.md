@@ -179,10 +179,10 @@ Open `http://localhost:5678`. The workflow: **Webhook → AI Agent** (Groq Chat 
 ## Screenshots
 
 <!-- Frontend in action — add this first, it's the clearest demonstration -->
-![Study Notebook frontend](./screenshots/frontend.png)
+![Study Notebook frontend](AI-STUDY-ASSISTANT/screenshots/frontend.png)
 
 <!-- n8n workflow canvas -->
-![n8n agent workflow](./screenshots/n8n-workflow.png)
+![n8n agent workflow](AI-STUDY-ASSISTANT/screenshots/n8n-workflow.png)
 
 ## What I Learned
 
