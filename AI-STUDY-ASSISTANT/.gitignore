@@ -1,5 +1,3 @@
 node_modules/
 .env
 data/vectorStore.json
-client/node_modules/
-client/.env
