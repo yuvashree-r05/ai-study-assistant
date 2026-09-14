@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import Message from './components/Message.jsx';
 import IngestPanel from './components/IngestPanel.jsx';
 
-const API_BASE = 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 const API_KEY = import.meta.env.VITE_API_KEY; // read from client/.env, one source of truth
 
 export default function App() {

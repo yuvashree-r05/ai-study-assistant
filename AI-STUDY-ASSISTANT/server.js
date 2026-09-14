@@ -14,7 +14,15 @@ const errorHandler = require('./src/middleware/errorHandler');
 
 const app = express();
 
-app.use(cors());
+// FRONTEND_URL lets us restrict CORS to only your actual deployed
+// frontend, instead of allowing any website to call this API. If
+// it's not set (local development), we fall back to allowing
+// everything, which is fine for localhost testing.
+const corsOptions = process.env.FRONTEND_URL
+  ? { origin: process.env.FRONTEND_URL }
+  : {};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(requestLogger); // logs every request, first, so we see everything
