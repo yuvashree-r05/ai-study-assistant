@@ -23,6 +23,10 @@ function loadStore() {
 }
 
 function saveStore(entries) {
+  const dir = path.dirname(STORE_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
   fs.writeFileSync(STORE_PATH, JSON.stringify(entries, null, 2));
 }
 
