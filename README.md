@@ -2,6 +2,13 @@
 
 A study assistant that answers questions grounded in your own notes, using retrieval-augmented generation and an LLM agent that decides for itself when to search your notes versus answer from general knowledge — built by hand first, then rebuilt with LangChain/LangGraph and n8n to compare approaches.
 
+## Live Demo
+
+- **Frontend:** https://sensational-dango-4bd7a3.netlify.app
+- **Backend API:** https://ai-study-assistant-ermy.onrender.com
+
+> Note: the backend is hosted on Render's free tier, which spins down after inactivity — the first request after idle time may take 20–30 seconds to respond while it wakes up.
+
 ## Overview
 
 This started as a learning project to understand how LLM applications actually work — not just how to call an API, but how retrieval, tool-calling, and agent decision-making function mechanically underneath the frameworks that usually hide them. Every capability here was implemented from scratch first, then reimplemented using industry-standard tools, so those tools are understood rather than trusted blindly.
@@ -81,6 +88,7 @@ Respond to Webhook.
 | Frontend | React + Vite | Fast dev loop |
 | Markdown rendering | react-markdown | Renders the LLM's formatted answers properly |
 | Security/reliability | express-rate-limit, custom middleware | API key auth, rate limiting, validation, logging, error handling |
+| Hosting | Netlify (frontend), Render (backend) | Free tiers, simple git-based deploys |
 
 ## Project Structure
 
@@ -140,12 +148,18 @@ API_KEY=choose_any_secret_string
 PORT=3000
 ```
 
+> On Render, the platform assigns its own port via `process.env.PORT` at runtime (the app reads this automatically) — the `PORT=3000` above only applies when running locally.
+
 **Frontend `client/.env`:**
 ```
 VITE_API_KEY=same_secret_as_backend_API_KEY
 ```
 
 ## Running the Project
+
+> For a quick look, use the [Live Demo](#live-demo) above — no setup required.
+
+To run locally:
 
 ```bash
 # terminal 1 — backend
@@ -191,11 +205,12 @@ Open `http://localhost:5678`. The workflow: **Webhook → AI Agent** (Groq Chat 
 - Real debugging: stale `.env` values after key rotation (nodemon doesn't watch `.env`), Docker container networking (`host.docker.internal`), provider model deprecations (Groq renamed/moved several models mid-project), and credential formatting quirks in n8n
 - That hallucinations aren't hypothetical — I deliberately triggered one, diagnosed it, and fixed it with an explicit instruction, rather than assuming a system prompt works
 - That the same underlying capability (an agent with tools) can be expressed at very different levels of abstraction — raw code, a framework, or a no-code canvas — and it's the same idea every time
+- That a hosted server's filesystem isn't guaranteed to persist or even pre-exist — code that assumes a local folder is already there (fine on localhost) needs to create it defensively once deployed
 
 ## Future Improvements
 
 - A real vector database instead of a JSON file, once note volume grows
 - A proper evaluation suite — testing the agent against many questions systematically, not just targeted manual checks
-- Deployment beyond localhost, with CORS locked to a specific origin and secrets handled server-side rather than in frontend code
+- Cleaner Markdown table rendering in the frontend for LLM responses containing tables
 - A genuine scheduled automation example in n8n (e.g., a daily summary), separate from the on-demand agent behavior already built
 - A tool connecting to a separate existing project (a college ERP system) so the agent can answer questions using real external data, not just personal notes
